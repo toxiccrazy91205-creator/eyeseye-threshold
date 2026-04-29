@@ -1,0 +1,13 @@
+@import './components/css/index.css';
+@import './components/css/custom.css';
+@import './components/css/instructions.css';
+@import './components/css/showCharacterSet.css';
+@import './components/css/vocoderPhrase.css';
+@import './components/css/soundCalibration.css';
+@import './components/css/phraseIdentification.css';
+@import './components/css/forms.css';
+@import './components/css/popup.css';
+@import './components/css/takeABreak.css';
+@import './components/css/psychojsExtra.css';
+@import './components/css/video.css';
+@import './components/css/utils.css';

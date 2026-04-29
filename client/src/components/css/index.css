@@ -1,0 +1,213 @@
+#barContainer {
+  position: absolute;
+  bottom: 5vh;
+  right: 5px;
+  width: 30px;
+  height: 95%;
+  background-color: #d8d8d8;
+  border-radius: 5px;
+  border: 1px solid black;
+  z-index: 1000;
+}
+
+#progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #0f0;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.experiment-progress-container {
+  position: absolute;
+  bottom: 5vh;
+  right: 5px;
+  width: 30px;
+  height: 95%;
+  background-color: #d8d8d8;
+  border-radius: 5px;
+  border: 1px solid black;
+  z-index: 1000;
+}
+
+.experiment-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #0f0;
+  border-radius: 5px;
+  z-index: 1000;
+  transition: height 0.3s ease;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  margin: 0;
+}
+
+label,
+input,
+select {
+  box-sizing: border-box;
+  display: block;
+  padding-bottom: 0.5em;
+}
+
+input.text,
+select.text {
+  margin-bottom: 1em;
+  padding: 0.5em;
+  width: 100%;
+}
+
+fieldset {
+  border: 0;
+  margin-top: 1em;
+  padding: 0;
+}
+
+a,
+a:active,
+a:focus,
+a:visited {
+  color: #007eb7;
+  outline: 0;
+}
+
+a:hover {
+  color: #000;
+}
+
+.progress {
+  box-sizing: border-box;
+  padding: 0.5em 0;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 1em;
+  max-height: 20vh;
+  max-width: 100%;
+}
+
+.ui-dialog {
+  left: auto !important;
+  margin: auto;
+  max-width: 88vw;
+  position: relative;
+  top: auto !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+  align-items: center;
+  font-weight: 400;
+}
+
+.ui-dialog.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+.ui-dialog-titlebar-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  padding: 0 !important;
+}
+
+.ui-dialog .ui-dialog-content {
+  margin-top: 1em;
+  max-height: calc(100vh - 12em) !important;
+  overflow-y: auto;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 1080px) {
+  .ui-dialog .ui-dialog-buttonpane {
+    padding-top: 1em;
+  }
+}
+
+#root.initialized::after {
+  display: none;
+}
+
+#root.loaded::after {
+  display: none;
+}
+
+.hide-cursor {
+  cursor: none;
+}
+
+.needs-page-button {
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-wrap: wrap;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input,
+select {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #007eb7;
+  box-shadow: 0 0 0 3px rgba(0, 126, 183, 0.2);
+}
+
+#rc-panel-holder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 9999;
+}
+
+#esc-key-handling-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 9998;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+#root.loaded::after {
+  display: none;
+}

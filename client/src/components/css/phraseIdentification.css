@@ -1,0 +1,28 @@
+.phrase-identification-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.phrase-question {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.phrase-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.phrase-option {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  background-color: #ddd;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.phrase-option:hover {
+  background-color: #ccc;
+}

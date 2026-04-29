@@ -1,0 +1,22 @@
+.sound-calibration-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.calibration-button {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.calibration-button:hover {
+  background-color: #555;
+}

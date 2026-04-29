@@ -1,0 +1,16 @@
+.vocoder-phrase-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.vocoder-phrase-text {
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+.vocoder-phrase-category {
+  font-size: 1rem;
+  color: #666;
+}
