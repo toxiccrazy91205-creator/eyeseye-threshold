@@ -1,43 +1,116 @@
-# AWS EC2 Deployment Guide
+# Full Step-by-Step Deployment Guide: AWS EC2
 
-This guide explains how to deploy the EyesEye MERN project to an AWS EC2 instance using Docker and Docker Compose.
+This guide provides a comprehensive, step-by-step walkthrough for deploying the EyesEye MERN project to an AWS EC2 instance using Docker.
 
-## 1. Prepare your EC2 Instance
-1. Launch an EC2 Instance (Ubuntu 22.04 LTS recommended).
-2. Ensure your **Security Group** allows inbound traffic on:
-   - Port 22 (SSH)
-   - Port 80 (HTTP)
-   - Port 5000 (Backend API - Optional if using Nginx as proxy)
+---
 
-## 2. Install Docker and Docker Compose
-Connect to your instance via SSH and run:
+## Phase 1: AWS EC2 Setup
+
+### 1. Launch Instance
+- **AMI**: Ubuntu 22.04 LTS.
+- **Instance Type**: t2.micro (Free Tier) is sufficient for testing.
+- **Key Pair**: Create and download your `.pem` file.
+
+### 2. Configure Security Group
+In the AWS Console, edit your Security Group's **Inbound Rules**:
+| Protocol | Port Range | Source | Description |
+|----------|------------|--------|-------------|
+| SSH      | 22         | My IP  | Secure access |
+| HTTP     | 80         | 0.0.0.0/0 | Web traffic (Frontend) |
+| Custom   | 5000       | 0.0.0.0/0 | API traffic (Backend) |
+
+---
+
+## Phase 2: Server Preparation
+
+### 3. Connect to EC2
 ```bash
-sudo apt update
-sudo apt install -y docker.io docker-compose
+ssh -i "your-key.pem" ubuntu@your-ec2-public-ip
+```
+
+> [!TIP]
+> **Can't connect? Check these 3 things:**
+> 1. **Security Group**: In the AWS Console, ensure port 22 is open for your IP.
+> 2. **Key Permissions (Windows)**: If you get a "permissions are too open" error, right-click your `.pem` file -> Properties -> Security -> Advanced -> Disable Inheritance -> Remove all. Then add your user with "Full Control".
+> 3. **Public IP**: Make sure you are using the **Public IPv4 address**, not the private one.
+
+### 4. Install Docker & Docker Compose
+Run these commands sequentially:
+```bash
+# Update packages
+sudo apt update && sudo apt upgrade -y
+
+# Install Docker
+sudo apt install -y docker.io
+
+# Start and enable Docker
 sudo systemctl start docker
 sudo systemctl enable docker
+
+# Install Docker Compose
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+# Add current user to docker group (fixes permission issues)
 sudo usermod -aG docker $USER
 ```
-*(Logout and log back in for group changes to take effect)*
+**CRITICAL**: After the last command, exit the SSH session and log back in for changes to take effect.
 
-## 3. Clone and Configure
-1. Clone your repository to the EC2 instance.
-2. Create a `.env` file in the root directory:
+---
+
+## Phase 3: Project Deployment
+
+### 5. Clone the Repository
 ```bash
-MONGODB_URI=mongodb://your_user:your_password@your_atlas_shard...
+git clone https://github.com/toxiccrazy91205-creator/eyeseye-threshold.git
+cd eyeseye-threshold
 ```
+> [!NOTE]
+> If you get "Permission denied" errors, run this to take ownership: `sudo chown -R $USER:$USER .`
 
-## 4. Build and Launch
-From the project root:
+### 6. Configure Environment Variables
+Create a root `.env` file to hold your production secrets:
+```bash
+sudo nano .env
+```
+Paste your MongoDB URI (and any other secrets):
+```env
+MONGODB_URI=mongodb+srv://devparmar9122005_db_user:iyTOOQzW5dSPZfEI@ac-t5zuodj-shard-00-00.bdsq4tn.mongodb.net/eyeseye?retryWrites=true&w=majority
+```
+*Press `Ctrl+O`, `Enter`, then `Ctrl+X` to save and exit.*
+
+### 7. Build and Start with Docker
 ```bash
 docker-compose up -d --build
 ```
 
-## 5. Verify
-- Visit your EC2 Public IP in the browser.
-- The frontend should be visible on port 80.
-- The backend API should be accessible via `http://<EC2_IP>:5000/api`.
+---
 
-## 6. Important Notes
-- **Vite Proxy**: The production build handles API calls via relative paths. If you use Nginx to serve the frontend, ensure it's configured to proxy `/api` requests to the `server` service.
-- **SSL**: For production, it is highly recommended to use **Certbot (Let's Encrypt)** and configure an Nginx reverse proxy for HTTPS.
+## Phase 4: Verification & Troubleshooting
+
+### 8. Check Running Containers
+```bash
+docker ps
+```
+You should see two containers running: `eyeseye-threshold-client` and `eyeseye-threshold-server`.
+
+### 9. Access the App
+- **Frontend**: Open `http://your-ec2-public-ip` in your browser.
+- **Backend API**: Check `http://your-ec2-public-ip:5000/api/health`.
+
+### 10. Viewing Logs
+If something isn't working, check the logs:
+```bash
+docker-compose logs -f server
+```
+
+---
+
+## Phase 5: Production Best Practices (Optional)
+
+### SSL/HTTPS (Certbot)
+To enable HTTPS, you should install Nginx on the host machine and use Certbot:
+```bash
+sudo apt install -y nginx certbot python3-certbot-nginx
+```
+Then configure Nginx as a reverse proxy to forward traffic to port 80 (Docker).
